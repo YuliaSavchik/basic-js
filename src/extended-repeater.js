@@ -15,9 +15,67 @@ const { NotImplementedError } = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(/* str, options */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function repeater(str, options) {
+ 
+  let separator = options.separator
+  let additionSeparator = options.additionSeparator
+
+  if(separator === undefined) {
+    separator = '+'
+  }
+  if(additionSeparator === undefined) {
+    additionSeparator = '|'
+  }
+  
+  if(typeof str !== 'string') {
+    toString(str)
+  }
+  if(typeof options.addition !== 'string') {
+    toString(options.addition)
+  }
+  
+  let newStr = str
+
+  if('addition' in options) {
+    newStr = `${str}${options.addition}`
+  }
+
+  if('additionRepeatTimes' in options) {
+    let addStr = ''
+    for(let i = 1; i <= options.additionRepeatTimes; i++) {
+      if(i < options.additionRepeatTimes) {
+        addStr += `${options.addition}${additionSeparator}`
+      }
+      else if(i == options.additionRepeatTimes) {
+        addStr += `${options.addition}`
+      }
+    }
+    let result = `${str}${addStr}`
+    newStr = result
+  } else {
+    newStr = newStr
+  }
+
+  if('repeatTimes' in options) {
+    let repeatStr = ''
+    if(options.repeatTimes == 1) {
+      newStr = newStr
+    } else if(options.repeatTimes > 1) {
+      for(let i = 1; i <= options.repeatTimes; i++) {
+        if(i < options.repeatTimes) {
+          repeatStr += `${newStr}${separator}`
+        }
+        else if(i == options.repeatTimes) {
+          repeatStr += `${newStr}`
+        }
+      }
+      newStr = repeatStr
+    }
+  } else {
+    newStr = newStr
+  }
+
+  return newStr
 }
 
 module.exports = {
